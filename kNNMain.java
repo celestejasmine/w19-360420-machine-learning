@@ -11,29 +11,30 @@ public class kNNMain{
     // TASK 1: Use command line arguments to point DataSet.readDataSet method to
     // the desired file. Choose a given DataPoint, and print its features and label
 
-    List<DataPoint>  DataSetUsed = DataSet.readDataSet("data/iris.csv");
+    List<DataPoint> DataSetUsed = DataSet.readDataSet("data/iris.csv");
     System.out.println( DataSetUsed.get(0).label + "  " + DataSetUsed.get(0).x[0] + "  " +  DataSetUsed.get(0).x[1] + "  " + DataSetUsed.get(0).x[2] + "  " + DataSetUsed.get(0).x[3]);
 
     //TASK 2:Use the DataSet class to split the fullDataSet into Training and Held Out Test Dataset
-    List<DataPoint> Training = DataSet.readDataSet("data/iris.csv");
-    for (int i=0; i<124; i++)
-    {
-      Training.(i) = DataSetUsed.get(i);
-    }
-    List<DataPoint> SecretData = DataSet.readDataSet("data/iris.csv");
-    for (int i=124; i<150; i++)
-    {
-      Training.(i) = DataSetUsed.get(i);
-    }
+
+    List<DataPoint> trainingSet = new ArrayList<DataPoint>();
+    List<DataPoint> testSet = new ArrayList<DataPoint>();
+    double trainingFraction = 0.5;
+    double testFraction = 1 - trainingFraction ;
+    testSet = getTestSet( DataSetUsed, testFraction);
+    trainingSet = getTrainingSet(DataSetUsed, trainingFraction);
 
     // TASK 3: Use the DataSet class methods to plot the 2D data (binary and multi-class)
 
-
+    //Nope!
 
     // TASK 4: write a new method in DataSet.java which takes as arguments to DataPoint objects,
     // and returns the Euclidean distance between those two points (as a double)
 
-
+/*
+    DataPoint dp1 = trainingSet.get(val1);
+    DataPoint dp2 = trainingSet.get(val2);
+    distance = distanceEuclid(dp1, dp2);
+**/
 
     // TASK 5: Use the KNNClassifier class to determine the k nearest neighbors to a given DataPoint,
     // and make a print a predicted target label

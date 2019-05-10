@@ -248,8 +248,24 @@ public class DataSet {
   ////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////
-  // TASK 4: make a method here called distanceEuclid 
+  // TASK 4: make a method here called distanceEuclid
+ public static void distanceEuclid(DataPoint val1, DataPoint val2){
 
+   double[] x1 = val1.getX();
+   double[] x2 = val2.getX();
+
+   double distanceSquared = 0;
+   double distance = 0;
+
+    for(i=0; i<x1.length; i++)
+    {
+      distanceSquared = distanceSquared + Math.pow((x1[i] - x2[i]),2);
+    }
+    distance = Math.pow(distanceSquared, 0.5);
+
+    return distance ;
+
+ }
   ////////////////////////////////////////////////////////////////////////////
 
 
