@@ -11,7 +11,14 @@ public class kNNMain{
     // TASK 1: Use command line arguments to point DataSet.readDataSet method to
     // the desired file. Choose a given DataPoint, and print its features and label
 
-    List<DataPoint> DataSetUsed = DataSet.readDataSet("data/iris.csv");
+    double[] accuracyArray = new double[100];
+
+    double avg = 0;
+    double SD = 0;
+
+    for(int j = 0; j<100; j++){
+
+    List<DataPoint> DataSetUsed = DataSet.readDataSet("data/Iris.csv");
     System.out.println( DataSetUsed.get(0).label + "  " + DataSetUsed.get(0).x[0] + "  " +  DataSetUsed.get(0).x[1] + "  " + DataSetUsed.get(0).x[2] + "  " + DataSetUsed.get(0).x[3]);
 
     //TASK 2:Use the DataSet class to split the fullDataSet into Training and Held Out Test Dataset
@@ -40,6 +47,8 @@ public class kNNMain{
     // TASK 5: Use the KNNClassifier class to determine the k nearest neighbors to a given DataPoint,
     // and make a print of a predicted target label
 
+    /*
+
     KNNClassifier Classify5 = new KNNClassifier(3);
 
     DataPoint[] nearestNeighbors = Classify5.getNearestNeighbors(trainingSet, trainingSet.get(0));
@@ -47,24 +56,32 @@ public class kNNMain{
     String label = Classify5.predict(trainingSet, trainingSet.get(0));
 
     System.out.println(label);
-
+    */
 
     // TASK 6: loop over the datapoints in the held out test set, and make predictions for Each
     // point based on nearest neighbors in training set. Calculate accuracy of model.
 
-    double modelLabelAsDouble = 0;
-    int ctr = 0;
-    double accuracy = 0;
+    //double[] accuracyArray = new double[100];
 
-    double mean = 0;
-    double SD = 0;
+    // double modelLabelAsDouble = 0;
 
-    for(int j = 0; j<100; j++)
-    {
+
+
+    KNNClassifier Classify5 = new KNNClassifier(3);
+
+  //  for(int j = 0; j<100; j++)
+    //{
+
+
+      int ctr = 0;
+      double accuracy = 0;
+
       for(int i =0; i< trainingSet.size(); i++)
       {
         String modelLabel = Classify5.predict(trainingSet, testSet.get(i));
         String actualLabel = testSet.get(i).getLabel();
+
+        /*
 
         if(modelLabel.length() == actualLabel.length())
           {
@@ -75,23 +92,66 @@ public class kNNMain{
             trainingSet.get(i).setLabelAsDouble(0);
           }
         modelLabelAsDouble = trainingSet.get(i).getLabelAsDouble();
-        if(modelLabelAsDouble == 1)
+
+        */
+
+
+        if(modelLabel.length() == actualLabel.length())
           {
             ctr++ ;
           }
-        System.out.println( modelLabel + "\t " + actualLabel + "    \t " + modelLabelAsDouble + "  \t ");
+
+        System.out.println( modelLabel + "\t " + actualLabel + "    \t ");
+
+    //    System.out.println( modelLabel + "\t " + actualLabel + "    \t " + modelLabelAsDouble + "  \t ");
+
       }
 
       accuracy = (ctr*100)/testSet.size() ;
       System.out.println("Accuracy: " + accuracy);
-      mean += accuracy ;
-      System.out.println()
+      accuracyArray[j] = accuracy;
+
+  // }
+  
+  }
+
+    avg = mean(accuracyArray) ;
+    System.out.println("Mean: " + avg);
+    SD = standardDeviation(accuracyArray);
+    System.out.println("Standard Deviation: " + SD);
 
     }
 
-    mean = (mean)/100 ;
-    System.out.println("mean " + mean);
+    public static double mean(double[] accuracyArray)
+    {
+      double sum = 0;
+      double avg = 0;
 
+      for(int i = 0; i<accuracyArray.length; i++)
+      {
+        sum += accuracyArray[i];
+      }
+
+      avg = ((double)sum)/accuracyArray.length;
+
+      return avg;
+
+    }
+
+    public static double standardDeviation(double[] accuracyArray)
+    {
+      double avg = 0;
+      double sumDiff = 0;
+      double SD = 0;
+
+      avg = mean(accuracyArray);
+      for(int i =0; i<accuracyArray.length; i++)
+      {
+        sumDiff += Math.pow((accuracyArray[i]-avg),2);
+      }
+
+      SD = Math.pow(((double)sumDiff/accuracyArray.length), 0.5) ;
+      return SD;
 
     }
 }
